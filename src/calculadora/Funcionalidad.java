@@ -5,12 +5,12 @@ import java.awt.event.ActionListener;
 
 public class Funcionalidad implements ActionListener {
 
-	private String valorBoton;
-	private static double numeroViejo = 0;
-	private static double numeroNuevo;
-	private static boolean borrar = true;
-	private static boolean primerNumero = true;
-	private static String ultimoSimbolo = "";
+	private String valorBoton; //almacena el valor del botón presionado
+	private static double numeroViejo = 0; //acumulador de las operaciones
+	private static double numeroNuevo; //numero actual introducido
+	private static boolean borrar = true; //indica si debe borrarse la pantalla
+	private static boolean primerNumero = true; //indica si es el primer número en la operación
+	private static String ultimoSimbolo = ""; //última operación realizada (+, -, *, /)
 
 	public Funcionalidad (String valorBoton) {
 
@@ -23,19 +23,19 @@ public class Funcionalidad implements ActionListener {
 
 		try {
 
-			Double.parseDouble(valorBoton);
+			Double.parseDouble(valorBoton); //verifica que el botón presionado sea un número
 
-			addNumeroPantalla();
+			addNumeroPantalla(); //añade el número a la pantalla
 
 		} catch (Exception ex) {
 
 			if (valorBoton.equals(".")) {
 				
-				addNumeroPantalla();
+				addNumeroPantalla(); //manejo del punto decimal
 				
 			} else {
 				
-				calcularOperacion();
+				calcularOperacion(); //ejecuta una operación
 				
 			}
 
@@ -47,19 +47,15 @@ public class Funcionalidad implements ActionListener {
 
 		String numeroPantalla = Interfaz.getTextoPantalla();
 		
-		if (valorBoton.equals(".")) {
+		if (valorBoton.equals(".") && numeroPantalla.contains(".")) {
 			
-			if (numeroPantalla.contains(".")) {
-				
-				return; //no permite múltiples puntos decimales
-				
-			}
-			
-		}
+            return; //no permite múltiples puntos decimales
+            
+        }
 
 		if (numeroPantalla.equals("0") || borrar) {
 
-			numeroPantalla = "";
+			numeroPantalla = ""; //limpia la pantalla si es necesario
 			borrar = false;
 
 		}
@@ -74,25 +70,15 @@ public class Funcionalidad implements ActionListener {
 
 		switch(valorBoton) {
 
-		case "+":
-			sumar();
-			break;
+		case "+": sumar(); break;
 
-		case "-":
-			restar();
-			break;
+		case "-": restar(); break;
 
-		case "*":
-			multiplicar();
-			break;
+		case "*": multiplicar(); break;
 
-		case "/":
-			dividir();
-			break;
+		case "/": dividir(); break;
 		
-		case "=":
-			realizarOperacion();
-			break;
+		case "=": realizarOperacion(); break;
 
 		}
 
@@ -105,9 +91,9 @@ public class Funcionalidad implements ActionListener {
 		if (ultimoSimbolo.equals("*")) multiplicar();
 		if (ultimoSimbolo.equals("/")) dividir();
 		
-		Interfaz.setTextoPantalla(String.valueOf(numeroViejo));
-		borrar = true;
-		numeroViejo = 0;
+		Interfaz.setTextoPantalla(String.valueOf(numeroViejo)); //muestra el resultado
+		borrar = true; 
+		numeroViejo = 0; 
 		primerNumero = true;
 		
 	}
